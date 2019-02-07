@@ -1,0 +1,40 @@
+#include <iostream>
+#include <map>
+#include <tclap/CmdLine.h>
+#include <string>
+#include "program5.h"
+using namespace std;
+
+void parseCommand (int argc, char* argv[])
+{
+ try{
+  string daemonOption;  
+  TCLAP::CmdLine cmd("CS3377dirmond Directory Monitor Daemon", ' ', " ");
+  TCLAP::UnlabeledValueArg<string> configFile( "", "The name of the configuration file. Defaults to cs3377dirmond.conf","false ", "c
+s3377dirmond.conf", "config filename", "" );
+
+  TCLAP::SwitchArg daemon ("d","daemon","Run in daemon mode (forks to run as a daemon)", cmd, false );
+  cmd.add(configFile);
+  cmd.parse (argc , argv);
+  string configfile = configFile.getValue();
+  bool daemonCheck = daemon.getValue();
+  if (daemonCheck)
+     {
+	daemonOption = "TRUE";
+     }
+  else 
+  {
+  daemonOption = "FALSE";
+  }
+
+   commandLine.insert(pair <int  , string> (CONFIGFILE , configfile));
+   commandLine.insert(pair <int , string> (DAEMON, daemonOption));
+      
+} catch (TCLAP::ArgException &e) 
+{
+  //display error message
+  cerr << "error: " << e.error() << " for arg " << e.argId() << endl;
+}
+  
+
+}
